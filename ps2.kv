@@ -1,0 +1,85 @@
+<ParentScreen2>
+  name:"parent_screen_2"
+  toolbar:toolbar
+  md_nav_layout:md_nav_layout
+  child_sm:child_sm
+  act_screen:act_screen
+  table_screen:table_screen
+  canvas.before:
+    Color:
+      rgb:[127/255, 160/255, 189/255]
+    Rectangle:
+      pos:self.pos
+      size:self.size
+  MDToolbar:
+    id:toolbar
+    pos_hint:{"top":1}
+    title:"What-Sticks"
+    left_action_items:[["menu", lambda x: nav_drawer.set_state("open")]]
+    md_bg_color: .3,.3,.3,1
+
+  MDNavigationLayout:
+    id:md_nav_layout
+
+    ScreenManager:
+      id:child_sm
+      ActivityScreen:
+        id:act_screen
+        size_hint:1,None
+        height:root.height - root.toolbar.height
+      Screen:
+        id:table_screen
+        size_hint:1,None
+        height:root.height - root.toolbar.height
+    MDNavigationDrawer:
+      id:nav_drawer
+      size_hint:.5, None
+      height:root.height - root.toolbar.height
+      NavMenu:
+
+
+<ActivityScreen@Screen>
+  ScrollView:
+    BoxLayout:
+      orientation:"vertical"
+      size_hint:1,None
+      height:self.minimum_height
+      MainBoxLayout:
+        size_hint:1,None
+        height:root.height
+
+      ExtraBoxLayout:
+        size_hint:1,None
+        height:root.height *.5
+
+
+<ExtraBoxLayout>
+  orientation:"vertical"
+
+
+<NavMenu>
+  spacing:10
+  orientation:"vertical"
+  canvas.before:
+    Color:
+      rgb: [127/255,160/255,189/255]
+    Rectangle:
+      pos: self.pos
+      size: self.size
+  OneLineListItem:
+    text:"Add Activity"
+    on_press:
+      root.parent.parent.parent.child_sm.current="act_screen"
+
+  OneLineListItem:
+    text:"View Logged Activties"
+    on_press:
+      print('+++++View Logged Activites - Table screen accessed')
+      #root.parent.parent.parent.parent == BaseScreenManager
+      # print('root.parent.parent.parent.parent.children:',root.parent.parent.parent.parent.children)
+
+      ps2=root.parent.parent.parent.parent.children[0]
+      ps2.get_table_data()
+      root.parent.parent.parent.child_sm.current="table_screen"
+
+  Label:

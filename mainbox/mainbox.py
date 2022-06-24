@@ -23,13 +23,14 @@ class MainBoxLayout(BoxLayout):
   def __init__(self,**kwargs):
     super(MainBoxLayout, self).__init__(**kwargs)
     self.on_size_count=0
-    self.sc=3#size coefficient
+    self.sc=2#size coefficient
     self.bind(size=self.on_size)
 
 
   def on_size(self,*args):
     print('MainBox on_size')
-    self.input_act_note.sc=self.sc
+
+
     if self.on_size_count==1:
       print('MainBox on_size - made changes ****')
       self.label_email.text="nickapeed@yahoo.com"
@@ -47,7 +48,8 @@ class MainBoxLayout(BoxLayout):
 
   def size_kids(self):
     base_screen_manager = self.parent.parent.parent.parent
-
+    self.input_act_note.sc=self.sc
+    print('***Dynamic iNput box size also changed ****')
   # Act Screen Name / Email
     self.label_email.size_hint=(None,None)
     self.label_email.font_size=self.ps1_base_height * size_dict['label_email']['font_size'][self.sc]
@@ -193,6 +195,7 @@ class TextInputDynamicActNote(TextInput):
     self.on_size_count=0
     self.old_line_count=1
     self.bind(_lines=self.change_height_util)
+    self.sc=2
 
   def change_height_util(self,*args):
     self.main_box=self.parent.parent
